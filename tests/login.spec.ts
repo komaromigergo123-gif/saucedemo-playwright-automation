@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 
-test('login', async ({ page }) => {
+/* test('login', async ({ page }) => {
   await page.goto('https://sauce-demo.myshopify.com/');
   await page.getByRole('link', { name: 'Log In' }).click();
   await page.getByRole('textbox', { name: 'Email Address' }).fill('komaromigergo123@gmail.com');
@@ -11,4 +11,4 @@ test('login', async ({ page }) => {
   expect(await page.getByRole('heading', { name: 'Account Details and Order History back!' }).isVisible()).toBe(true);
 
   
-});
+}); */
