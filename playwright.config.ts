@@ -14,8 +14,17 @@ export default defineConfig({
 
   projects: [
     {
-      name: 'setup',
-      testMatch: /.*\.setup\.ts/,
+      name: 'setup-auth',
+      testMatch: /auth\.setup\.ts/,
+    },
+
+    {
+      name: 'setup-cart',
+      testMatch: /cart\.setup\.ts/,
+      use: {
+        storageState: 'playwright/.auth/user.json',
+      },
+      dependencies: ['setup-auth'],
     },
 
     {
@@ -24,7 +33,18 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         storageState: 'playwright/.auth/user.json',
       },
-      dependencies: ['setup'],
+      testIgnore: /checkout\.spec\.ts/,
+      dependencies: ['setup-auth'],
+    },
+
+    {
+      name: 'checkout',
+      testMatch: /checkout\.spec\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/checkout.json',
+      },
+      dependencies: ['setup-cart'],
     },
   ],
 });

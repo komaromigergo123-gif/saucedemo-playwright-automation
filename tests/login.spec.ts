@@ -1,14 +1,35 @@
 import { test, expect } from '@playwright/test';
 
 
-/* test('login', async ({ page }) => {
-  await page.goto('https://sauce-demo.myshopify.com/');
-  await page.getByRole('link', { name: 'Log In' }).click();
-  await page.getByRole('textbox', { name: 'Email Address' }).fill('komaromigergo123@gmail.com');
-  await page.getByRole('textbox', { name: 'Password' }).fill('password123');
-  await page.getByRole('button', { name: 'Sign In' }).click();
-  
-  expect(await page.getByRole('heading', { name: 'Account Details and Order History back!' }).isVisible()).toBe(true);
 
+test('empty field error', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Login' }).click();
+  expect(await page.getByRole('heading', {name: 'Epic sadface: Username is required'}).isVisible()).toBe(true);
+
+});
+test('wrong details error', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('textbox', { name: 'Username' }).fill('asd');
+  await page.getByRole('textbox', { name: 'Password' }).fill('asd');
+  await page.getByRole('button', { name: 'Login' }).click();
+  expect(await page.getByRole('heading', { name: 'Epic sadface: Username and password do not match any user in this service' }).isVisible()).toBe(true);
+
+});
+test('login succesful', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('textbox', { name: 'Username' }).fill('standard_user');
+  await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce');
+  await page.getByRole('button', { name: 'Login' }).click();
+  expect(await page.url()).toBe('https://www.saucedemo.com/inventory.html');
   
-}); */
+
+});
+test('locked out user', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('textbox', { name: 'Username' }).fill('locked_out_user');
+  await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce');
+  await page.getByRole('button', { name: 'Login' }).click();
+  expect(await page.getByRole('heading', { name: 'Epic sadface: Sorry, this user has been locked out.' }).isVisible()).toBe(true);
+
+});
