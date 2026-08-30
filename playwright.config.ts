@@ -10,7 +10,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
 
-  reporter: [['html', { open: 'never' }]],
+  reporter: [['html', { open: 'on-failure' }]],
 
   projects: [
     {
@@ -28,12 +28,20 @@ export default defineConfig({
     },
 
     {
+      name: 'login',
+      testMatch: /login\.spec\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+    },
+
+    {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
         storageState: 'playwright/.auth/user.json',
       },
-      testIgnore: /checkout\.spec\.ts/,
+      testIgnore: [/checkout\.spec\.ts/, /login\.spec\.ts/],
       dependencies: ['setup-auth'],
     },
 

@@ -11,7 +11,9 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "@playwright/test": "^1.56.1"
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^26.4.0",
+    "typescript": "^7.0.2"
   },
   "directories": {
     "test": "tests"
