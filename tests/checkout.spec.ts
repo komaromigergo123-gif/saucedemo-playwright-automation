@@ -1,70 +1,67 @@
+/// <reference types="node" />
 import { test, expect } from '@playwright/test';
-import { readFile } from 'node:fs/promises';
+import { readFile } from 'fs/promises';
+import { CheckoutPage } from '../pages/CheckoutPage';
 
 
 test('checkout First Name mandatory', async ({ page }) => {
+  const checkoutPage = new CheckoutPage(page);
+  await checkoutPage.goto();
 
-  await page.goto('/cart.html');
-  await page.getByRole('button', { name: 'Checkout' }).click();
-  await page.getByRole('textbox', {name: 'Last Name'}).fill('123')
-  await page.getByRole('textbox', {name: 'Zip/Postal Code'}).fill('123')
-  await page.getByRole('button', { name: 'Continue' }).click();
-  await expect(page.getByText("Error: First Name is required")).toBeVisible();
+  await checkoutPage.checkoutButton.click();
+  await checkoutPage.fillDetails('', '123', '123')
+  expect(checkoutPage.errorMessage).toHaveText("Error: First Name is required")
+  
 
 });
 
 test('checkout Last Name mandatory', async ({ page }) => {
+   const checkoutPage = new CheckoutPage(page);
+  await checkoutPage.goto();
+
+  await checkoutPage.checkoutButton.click();
+  await checkoutPage.fillDetails('123', '', '123')
+  expect(checkoutPage.errorMessage).toHaveText("Error: Last Name is required")
   
-  await page.goto('/cart.html');
-  await page.getByRole('button', { name: 'Checkout' }).click();
-  await page.getByRole('textbox', {name: 'First Name'}).fill('123')
-  await page.getByRole('textbox', {name: 'Zip/Postal Code'}).fill('123')
-  await page.getByRole('button', { name: 'Continue' }).click();
-  await expect(page.getByText("Error: Last Name is required")).toBeVisible();
 
 });
 test('checkout Zip/Postal Code mandatory', async ({ page }) => {
+    const checkoutPage = new CheckoutPage(page);
+  await checkoutPage.goto();
+
+  await checkoutPage.checkoutButton.click();
+  await checkoutPage.fillDetails('123', '123', '')
+  expect(checkoutPage.errorMessage).toHaveText("Error: Postal Code is required")
   
-  await page.goto('/cart.html');
-  await page.getByRole('button', { name: 'Checkout' }).click();
-  await page.getByRole('textbox', {name: 'First Name'}).fill('123')
-  await page.getByRole('textbox', {name: 'Last Name'}).fill('123')
-  await page.getByRole('button', { name: 'Continue' }).click();
-  await expect(page.getByText("Error: Postal Code is required")).toBeVisible();
 
 });
 test('checkout overview', async ({ page }) => {
-  
-  await page.goto('/cart.html');
-  await page.getByRole('button', { name: 'Checkout' }).click();
-  await page.getByRole('textbox', {name: 'First Name'}).fill('123')
-  await page.getByRole('textbox', {name: 'Last Name'}).fill('123')
-  await page.getByRole('textbox', {name: 'Zip/Postal Code'}).fill('123')
-  await page.getByRole('button', { name: 'Continue' }).click();
-  await expect(page.getByText("Sauce Labs Backpack")).toBeVisible();
-  await expect(page.locator('[data-test="item-quantity"]')).toHaveText('1');
+     const checkoutPage = new CheckoutPage(page);
+  await checkoutPage.goto();
+
+  await checkoutPage.checkoutButton.click();
+  await checkoutPage.fillDetails('123', '123', '123')
+  await expect(checkoutPage.itemName).toBeVisible();
+  await expect(checkoutPage.itemQuantity).toHaveText('1');
 });
 test('checkout finish', async ({ page }) => {
-  
-  await page.goto('/cart.html');
-  await page.getByRole('button', { name: 'Checkout' }).click();
-  await page.getByRole('textbox', {name: 'First Name'}).fill('123')
-  await page.getByRole('textbox', {name: 'Last Name'}).fill('123')
-  await page.getByRole('textbox', {name: 'Zip/Postal Code'}).fill('123')
-  await page.getByRole('button', { name: 'Continue' }).click();
-  await page.getByRole('button', { name: 'Finish' }).click();
-  await expect(page.getByText("THANK YOU FOR YOUR ORDER")).toBeVisible();
-  await expect(page.getByText("Your order has been dispatched, and will arrive just as fast as the pony can get there!")).toBeVisible();
+     const checkoutPage = new CheckoutPage(page);
+  await checkoutPage.goto();
+
+  await checkoutPage.checkoutButton.click();
+  await checkoutPage.fillDetails('123', '123', '123')
+  await checkoutPage.finishButton.click();
+  await expect(checkoutPage.completeHeader).toHaveText("Thank you for your order!");
+ 
 });
 test('checkout generate pdf', async ({ page }, testInfo) => {
   
-  await page.goto('/cart.html');
-  await page.getByRole('button', { name: 'Checkout' }).click();
-  await page.getByRole('textbox', {name: 'First Name'}).fill('123')
-  await page.getByRole('textbox', {name: 'Last Name'}).fill('123')
-  await page.getByRole('textbox', {name: 'Zip/Postal Code'}).fill('123')
-  await page.getByRole('button', { name: 'Continue' }).click();
-  await page.getByRole('button', { name: 'Finish' }).click();
+     const checkoutPage = new CheckoutPage(page);
+  await checkoutPage.goto();
+
+  await checkoutPage.checkoutButton.click();
+  await checkoutPage.fillDetails('123', '123', '123')
+  await checkoutPage.finishButton.click();
 
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Generate pdf order' }).click();
