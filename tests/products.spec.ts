@@ -1,9 +1,7 @@
-import { test, expect } from '@playwright/test';
-import { ProductsPage } from '../pages/ProductsPage';
+import { test, expect } from '../fixtures/pages';
 
 
-test('products visible', async ({ page }) => {
-  const productsPage = new ProductsPage(page);
+test('products visible', async ({ page, productsPage }) => {
   await productsPage.goto();
 
   const expectedProducts = [
@@ -21,23 +19,20 @@ test('products visible', async ({ page }) => {
   await expect(page.locator('[data-test$="-price"]')).toHaveCount(expectedProducts.length);
 });
 
-test('product details', async ({ page }) => {
-  const productsPage = new ProductsPage(page);
+test('product details', async ({ productsPage }) => {
   await productsPage.goto();
   await productsPage.itemName.first().click();
   await expect(productsPage.productDescription).toHaveText("carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.")
 });
 
-test('add product to cart', async ({ page }) => {
-  const productsPage = new ProductsPage(page);
+test('add product to cart', async ({ productsPage }) => {
   await productsPage.goto();
 
   await productsPage.addToCart();
   await expect(productsPage.itemName).toBeVisible();
 
 });
-test('remove product from cart', async ({ page }) => {
-  const productsPage = new ProductsPage(page);
+test('remove product from cart', async ({ page, productsPage }) => {
   await productsPage.goto();
 
   await productsPage.addToCart();
@@ -46,16 +41,14 @@ test('remove product from cart', async ({ page }) => {
   await expect(productsPage.itemName).not.toBeVisible();
 });
 
-test('product page sort a-z', async ({ page }) => {
-  const productsPage = new ProductsPage(page);
+test('product page sort a-z', async ({ productsPage }) => {
   await productsPage.goto();
   const names = await (productsPage.itemName).allTextContents();
   expect(names).toEqual([...names].sort());
 
 
 });
-test('product page sort z-a', async ({ page }) => {
-  const productsPage = new ProductsPage(page);
+test('product page sort z-a', async ({ productsPage }) => {
   await productsPage.goto();
   const names = await (productsPage.itemName).allTextContents();
 
@@ -66,8 +59,7 @@ test('product page sort z-a', async ({ page }) => {
   expect(namesReversed).toEqual([...names].sort().reverse());
 
 });
-test('product page sort low-high', async ({ page }) => {
-  const productsPage = new ProductsPage(page);
+test('product page sort low-high', async ({ productsPage }) => {
   await productsPage.goto();
 
   await productsPage.sortButton.click();
@@ -79,8 +71,7 @@ test('product page sort low-high', async ({ page }) => {
   expect(numbers).toEqual(numbers.toSorted((a, b) => a - b));
 
 });
-test('product page sort high-low', async ({ page }) => {
-  const productsPage = new ProductsPage(page);
+test('product page sort high-low', async ({ productsPage }) => {
   await productsPage.goto();
 
   await productsPage.sortButton.click();

@@ -1,66 +1,55 @@
 /// <reference types="node" />
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures/pages';
 import { readFile } from 'fs/promises';
-import { CheckoutPage } from '../pages/CheckoutPage';
 
 
-test('checkout First Name mandatory', async ({ page }) => {
-  const checkoutPage = new CheckoutPage(page);
+test('checkout First Name mandatory', async ({ checkoutPage }) => {
   await checkoutPage.goto();
 
   await checkoutPage.checkoutButton.click();
-  await checkoutPage.fillDetails('', '123', '123')
-  expect(checkoutPage.errorMessage).toHaveText("Error: First Name is required")
-  
+  await checkoutPage.fillDetails('', '123', '123');
+  await expect(checkoutPage.errorMessage).toHaveText('Error: First Name is required');
 
 });
 
-test('checkout Last Name mandatory', async ({ page }) => {
-   const checkoutPage = new CheckoutPage(page);
+test('checkout Last Name mandatory', async ({ checkoutPage }) => {
   await checkoutPage.goto();
 
   await checkoutPage.checkoutButton.click();
-  await checkoutPage.fillDetails('123', '', '123')
-  expect(checkoutPage.errorMessage).toHaveText("Error: Last Name is required")
-  
+  await checkoutPage.fillDetails('123', '', '123');
+  await expect(checkoutPage.errorMessage).toHaveText('Error: Last Name is required');
 
 });
-test('checkout Zip/Postal Code mandatory', async ({ page }) => {
-    const checkoutPage = new CheckoutPage(page);
+test('checkout Zip/Postal Code mandatory', async ({ checkoutPage }) => {
   await checkoutPage.goto();
 
   await checkoutPage.checkoutButton.click();
-  await checkoutPage.fillDetails('123', '123', '')
-  expect(checkoutPage.errorMessage).toHaveText("Error: Postal Code is required")
-  
+  await checkoutPage.fillDetails('123', '123', '');
+  await expect(checkoutPage.errorMessage).toHaveText('Error: Postal Code is required');
 
 });
-test('checkout overview', async ({ page }) => {
-     const checkoutPage = new CheckoutPage(page);
+test('checkout overview', async ({ checkoutPage }) => {
   await checkoutPage.goto();
 
   await checkoutPage.checkoutButton.click();
-  await checkoutPage.fillDetails('123', '123', '123')
+  await checkoutPage.fillDetails('123', '123', '123');
   await expect(checkoutPage.itemName).toBeVisible();
   await expect(checkoutPage.itemQuantity).toHaveText('1');
 });
-test('checkout finish', async ({ page }) => {
-     const checkoutPage = new CheckoutPage(page);
+test('checkout finish', async ({ checkoutPage }) => {
   await checkoutPage.goto();
 
   await checkoutPage.checkoutButton.click();
-  await checkoutPage.fillDetails('123', '123', '123')
+  await checkoutPage.fillDetails('123', '123', '123');
   await checkoutPage.finishButton.click();
-  await expect(checkoutPage.completeHeader).toHaveText("Thank you for your order!");
+  await expect(checkoutPage.completeHeader).toHaveText('Thank you for your order!');
  
 });
-test('checkout generate pdf', async ({ page }, testInfo) => {
-  
-     const checkoutPage = new CheckoutPage(page);
+test('checkout generate pdf', async ({ page, checkoutPage }, testInfo) => {
   await checkoutPage.goto();
 
   await checkoutPage.checkoutButton.click();
-  await checkoutPage.fillDetails('123', '123', '123')
+  await checkoutPage.fillDetails('123', '123', '123');
   await checkoutPage.finishButton.click();
 
   const downloadPromise = page.waitForEvent('download');
@@ -71,6 +60,5 @@ test('checkout generate pdf', async ({ page }, testInfo) => {
   const downloadedFile = testInfo.outputPath(download.suggestedFilename());
   await download.saveAs(downloadedFile);
   expect((await readFile(downloadedFile)).subarray(0, 4).toString()).toBe('%PDF');
- 
 });
 
