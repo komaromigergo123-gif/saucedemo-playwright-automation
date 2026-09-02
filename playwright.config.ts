@@ -44,8 +44,18 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         storageState: 'playwright/.auth/user.json',
       },
-      testIgnore: [/checkout\.spec\.ts/, /login\.spec\.ts/],
+      testIgnore: [/checkout\.spec\.ts/, /login\.spec\.ts/, /cart\.spec\.ts/],
       dependencies: ['setup-auth'],
+    },
+
+    {
+      name: 'cart',
+      testMatch: /cart\.spec\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/checkout.json',
+      },
+      dependencies: ['setup-cart'],
     },
 
     {

@@ -1,9 +1,9 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class ProductsPage {
   readonly page: Page;
   readonly addToCartButton: Locator;
-  readonly openCart: Locator;
+  readonly cartBadge: Locator;
   readonly itemName: Locator;
   readonly itemPrice: Locator;
   readonly sortButton: Locator;
@@ -12,7 +12,7 @@ export class ProductsPage {
   constructor(page: Page) {
     this.page = page;
     this.addToCartButton = page.getByRole('button', { name: 'Add to cart' })
-    this.openCart = page.locator('[data-test="shopping-cart-link"]')
+    this.cartBadge = page.locator('[data-test="shopping-cart-badge"]')
     this.itemName = page.locator('[data-test="inventory-item-name"]')
     this.itemPrice = page.locator('[data-test="inventory-item-price"]')
     this.sortButton = page.locator('[data-test="product-sort-container"]')
@@ -25,7 +25,6 @@ async goto(): Promise<void> {
 
 async addToCart(){
    await this.addToCartButton.first().click()
-   await this.openCart.click()
 
 }
 

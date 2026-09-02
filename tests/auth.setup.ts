@@ -1,12 +1,10 @@
-import { test as setup, expect } from '@playwright/test';
+import { test as setup, expect } from '../fixtures/pages';
 
 const authFile = 'playwright/.auth/user.json';
 
-setup('authenticate', async ({ page }) => {
- await page.goto('/');
-  await page.getByRole('textbox', { name: 'Username' }).fill('standard_user');
-  await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce');
-  await page.getByRole('button', { name: 'Login' }).click();
+setup('authenticate', async ({ page, loginPage }) => {
+  await loginPage.goto();
+  await loginPage.login('standard_user', 'secret_sauce');
 
   await expect(page).toHaveURL('/inventory.html');
 

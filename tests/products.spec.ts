@@ -32,18 +32,11 @@ test('add product to cart', async ({ productsPage }) => {
   await productsPage.goto();
 
   await productsPage.addToCart();
-  await expect(productsPage.itemName).toBeVisible();
+  await expect(productsPage.cartBadge).toHaveText('1');
 
 });
 });
-test('remove product from cart', async ({ page, productsPage }) => {
-  await productsPage.goto();
 
-  await productsPage.addToCart();
-  await expect(productsPage.itemName).toBeVisible();
-  await page.getByRole('button', { name: 'Remove' }).click();
-  await expect(productsPage.itemName).not.toBeVisible();
-});
 
 test('product page sort a-z', async ({ productsPage }) => {
   await productsPage.goto();

@@ -1,11 +1,12 @@
-import { test as setup, expect } from '@playwright/test';
+import { test as setup, expect } from '../fixtures/pages';
+
 
 const authFile = 'playwright/.auth/checkout.json';
 
-setup('add item to cart', async ({ page }) => {
-  await page.goto('/inventory.html');
-  await page.getByRole('button', { name: 'Add to cart' }).first().click();
-  await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
+setup('add item to cart', async ({ page, productsPage }) => {
+  await productsPage.goto();
+  await productsPage.addToCart();
+  
 
   await page.context().storageState({
     path: authFile,
