@@ -36,6 +36,7 @@ test('checkout overview', async ({ checkoutPage }) => {
   await expect(checkoutPage.itemName).toBeVisible();
   await expect(checkoutPage.itemQuantity).toHaveText('1');
 });
+test.describe('@smoke', () => {
 test('checkout finish', async ({ checkoutPage }) => {
   await checkoutPage.goto();
 
@@ -44,6 +45,7 @@ test('checkout finish', async ({ checkoutPage }) => {
   await checkoutPage.finishButton.click();
   await expect(checkoutPage.completeHeader).toHaveText('Thank you for your order!');
  
+});
 });
 test('checkout generate pdf', async ({ page, checkoutPage }, testInfo) => {
   await checkoutPage.goto();

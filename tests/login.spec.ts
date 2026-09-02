@@ -1,4 +1,5 @@
 import { test, expect } from '../fixtures/pages';
+import { users } from '../data/users';
 
 test('open products page without login', async ({ page }) => {
   await page.goto('/inventory.html');
@@ -17,15 +18,17 @@ test('wrong details error', async ({ loginPage }) => {
   await expect(loginPage.errorHeading).toHaveText('Epic sadface: Username and password do not match any user in this service');
 
 });
-test('login succesful', async ({ loginPage, page }) => {
+test.describe('@smoke', () => {
+  test('login succesful', async ({ loginPage, page }) => {
   await loginPage.goto();
-  await loginPage.login('standard_user', 'secret_sauce');
+  await loginPage.login(users.standard.username, users.standard.password);
   await expect(page).toHaveURL('/inventory.html');
 
+  });
 });
 test('locked out user', async ({ loginPage }) => {
   await loginPage.goto();
-  await loginPage.login('locked_out_user', 'secret_sauce');
+  await loginPage.login(users.lockedOut.username, users.lockedOut.password);
   await expect(loginPage.errorHeading).toHaveText('Epic sadface: Sorry, this user has been locked out.');
 
 });

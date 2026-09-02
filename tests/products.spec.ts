@@ -1,7 +1,8 @@
 import { test, expect } from '../fixtures/pages';
 
 
-test('products visible', async ({ page, productsPage }) => {
+test.describe('@smoke', () => {
+  test('products visible', async ({ page, productsPage }) => {
   await productsPage.goto();
 
   const expectedProducts = [
@@ -18,6 +19,7 @@ test('products visible', async ({ page, productsPage }) => {
   await expect(page.locator('[data-test$="-img"]')).toHaveCount(expectedProducts.length);
   await expect(page.locator('[data-test$="-price"]')).toHaveCount(expectedProducts.length);
 });
+});
 
 test('product details', async ({ productsPage }) => {
   await productsPage.goto();
@@ -25,12 +27,14 @@ test('product details', async ({ productsPage }) => {
   await expect(productsPage.productDescription).toHaveText("carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.")
 });
 
+test.describe('@smoke', () => {
 test('add product to cart', async ({ productsPage }) => {
   await productsPage.goto();
 
   await productsPage.addToCart();
   await expect(productsPage.itemName).toBeVisible();
 
+});
 });
 test('remove product from cart', async ({ page, productsPage }) => {
   await productsPage.goto();
