@@ -30,16 +30,25 @@ export default defineConfig({
       dependencies: ['setup-auth'],
     },
 
+    // login tests run unauthenticated, so no storageState/dependency
     {
-      name: 'login',
+      name: 'login-chromium',
       testMatch: /login\.spec\.ts/,
-      use: {
-        ...devices['Desktop Chrome'],
-      },
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'login-firefox',
+      testMatch: /login\.spec\.ts/,
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'login-webkit',
+      testMatch: /login\.spec\.ts/,
+      use: { ...devices['Desktop Safari'] },
     },
 
     {
-      name: 'chromium',
+      name: 'products-chromium',
       use: {
         ...devices['Desktop Chrome'],
         storageState: 'playwright/.auth/user.json',
@@ -47,9 +56,27 @@ export default defineConfig({
       testIgnore: [/checkout\.spec\.ts/, /login\.spec\.ts/, /cart\.spec\.ts/],
       dependencies: ['setup-auth'],
     },
+    {
+      name: 'products-firefox',
+      use: {
+        ...devices['Desktop Firefox'],
+        storageState: 'playwright/.auth/user.json',
+      },
+      testIgnore: [/checkout\.spec\.ts/, /login\.spec\.ts/, /cart\.spec\.ts/],
+      dependencies: ['setup-auth'],
+    },
+    {
+      name: 'products-webkit',
+      use: {
+        ...devices['Desktop Safari'],
+        storageState: 'playwright/.auth/user.json',
+      },
+      testIgnore: [/checkout\.spec\.ts/, /login\.spec\.ts/, /cart\.spec\.ts/],
+      dependencies: ['setup-auth'],
+    },
 
     {
-      name: 'cart',
+      name: 'cart-chromium',
       testMatch: /cart\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
@@ -57,12 +84,48 @@ export default defineConfig({
       },
       dependencies: ['setup-cart'],
     },
+    {
+      name: 'cart-firefox',
+      testMatch: /cart\.spec\.ts/,
+      use: {
+        ...devices['Desktop Firefox'],
+        storageState: 'playwright/.auth/checkout.json',
+      },
+      dependencies: ['setup-cart'],
+    },
+    {
+      name: 'cart-webkit',
+      testMatch: /cart\.spec\.ts/,
+      use: {
+        ...devices['Desktop Safari'],
+        storageState: 'playwright/.auth/checkout.json',
+      },
+      dependencies: ['setup-cart'],
+    },
 
     {
-      name: 'checkout',
+      name: 'checkout-chromium',
       testMatch: /checkout\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/checkout.json',
+      },
+      dependencies: ['setup-cart'],
+    },
+    {
+      name: 'checkout-firefox',
+      testMatch: /checkout\.spec\.ts/,
+      use: {
+        ...devices['Desktop Firefox'],
+        storageState: 'playwright/.auth/checkout.json',
+      },
+      dependencies: ['setup-cart'],
+    },
+    {
+      name: 'checkout-webkit',
+      testMatch: /checkout\.spec\.ts/,
+      use: {
+        ...devices['Desktop Safari'],
         storageState: 'playwright/.auth/checkout.json',
       },
       dependencies: ['setup-cart'],

@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "test": "playwright test",
-  "test:headed": "playwright test --headed",
-  "test:smoke": "playwright test --grep @smoke",
+  "test": "playwright test --project=products-chromium --project=login-chromium --project=cart-chromium --project=checkout-chromium",
+  "test:headed": "playwright test --headed --project=products-chromium --project=login-chromium --project=cart-chromium --project=checkout-chromium",
+  "test:smoke": "playwright test --grep @smoke --project=products-chromium --project=products-firefox --project=products-webkit --project=login-chromium --project=login-firefox --project=login-webkit --project=checkout-chromium --project=checkout-firefox --project=checkout-webkit",
+  "test:regression-cross-browser": "playwright test --project=products-chromium --project=products-firefox --project=products-webkit --project=login-chromium --project=login-firefox --project=login-webkit --project=cart-chromium --project=cart-firefox --project=cart-webkit --project=checkout-chromium --project=checkout-firefox --project=checkout-webkit",
   "test:ui": "playwright test --ui",
   "report": "playwright show-report"
   },

@@ -8,6 +8,7 @@ export class CartPage {
   readonly checkoutButton: Locator;
   readonly continueShoppingButton: Locator;
   readonly itemQuantity: Locator;
+  readonly itemTotal: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -17,6 +18,7 @@ export class CartPage {
     this.checkoutButton = page.getByRole('button', { name: 'Checkout' });
     this.continueShoppingButton = page.getByRole('button', { name: 'Continue Shopping' });
     this.itemQuantity = page.locator('[data-test="item-quantity"]');
+    this.itemTotal = page.locator('[data-test="inventory-item-price"]');
   }
 
   async goto(): Promise<void> {
@@ -25,5 +27,14 @@ export class CartPage {
 
   async removeItem(): Promise<void> {
     await this.removeButton.click();
+  }
+
+  async getTotalPrice(): Promise<number> {
+    const itemPrices = await this.itemTotal.allTextContents();
+
+    return itemPrices.reduce(
+      (total, price) => total + Number(price.replace('$', '')),
+      0,
+    );
   }
 }

@@ -31,18 +31,26 @@ playwright.config.ts
 
 ```bash
 npm ci
-npx playwright install --with-deps chromium
-npm test              # full suite, headless
-npm run test:headed   # headed mode
-npm run test:smoke    # @smoke tagged tests only
-npm run test:ui       # Playwright UI mode
-npm run report        # open last HTML report
+npx playwright install --with-deps   # installs Chromium, Firefox, WebKit
+npm test                          # full suite, Chromium only, headless
+npm run test:headed               # headed mode, Chromium only
+npm run test:smoke                # @smoke tagged tests, Chromium + Firefox + WebKit
+npm run test:regression-cross-browser  # full suite, Chromium + Firefox + WebKit
+npm run test:ui                   # Playwright UI mode
+npm run report                    # open last HTML report
 ```
 
 ## Roadmap / next steps
 
-- [ ] Model the cart page as its own POM (currently inlined in `products.spec.ts`)
-- [ ] Cross-browser coverage (Firefox, WebKit)
+- [x] Model the cart page as its own POM (currently inlined in `products.spec.ts`)
+- [x] Cross-browser coverage (Firefox, WebKit) — smoke suite and nightly regression run on Chromium, Firefox, and WebKit; default `npm test` stays Chromium-only for speed
 - [ ] ESLint + Prettier for code quality consistency
 - [ ] Accessibility checks via `@axe-core/playwright`
 - [ ] Visual regression baseline (`toHaveScreenshot`)
+- [ ] Verify `@types/node`/`typescript` package versions are correct (pinned versions look implausible)
+- [ ] Fix `CheckoutPage.goto()` navigating to `/cart.html` instead of a real checkout URL
+- [ ] Add `tsc --noEmit` type-check step to CI
+- [ ] Add `.env`/multi-environment config layering instead of hardcoded base URL
+- [ ] Add an API-level test or `page.route` network mocking example
+- [ ] Add `list` reporter alongside `html` for CI console output
+- [ ] Use `test.step()` to group actions for more readable HTML reports
