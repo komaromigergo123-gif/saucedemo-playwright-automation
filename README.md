@@ -49,7 +49,7 @@ npm run report                    # open last HTML report
 - [ ] Visual regression baseline (`toHaveScreenshot`)
 - [x] Fix `CheckoutPage.goto()` navigating to `/cart.html` instead of a real checkout URL
 - [x] Add `tsc --noEmit` type-check step to CI
-- [ ] Add `.env`/multi-environment config layering instead of hardcoded base URL
+- [x] Add `.env`/multi-environment config layering instead of hardcoded base URL
 - [ ] Add an API-level test or `page.route` network mocking example
 - [ ] Add `list` reporter alongside `html` for CI console output
 - [ ] Use `test.step()` to group actions for more readable HTML reports
