@@ -16,7 +16,9 @@ export class CartPage {
     this.itemName = page.locator('[data-test="inventory-item-name"]');
     this.removeButton = page.getByRole('button', { name: 'Remove' });
     this.checkoutButton = page.getByRole('button', { name: 'Checkout' });
-    this.continueShoppingButton = page.getByRole('button', { name: 'Continue Shopping' });
+    this.continueShoppingButton = page.getByRole('button', {
+      name: 'Continue Shopping',
+    });
     this.itemQuantity = page.locator('[data-test="item-quantity"]');
     this.itemTotal = page.locator('[data-test="inventory-item-price"]');
   }

@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 
 export class ProductsPage {
   readonly page: Page;
@@ -11,25 +11,23 @@ export class ProductsPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.addToCartButton = page.getByRole('button', { name: 'Add to cart' })
-    this.cartBadge = page.locator('[data-test="shopping-cart-badge"]')
-    this.itemName = page.locator('[data-test="inventory-item-name"]')
-    this.itemPrice = page.locator('[data-test="inventory-item-price"]')
-    this.sortButton = page.locator('[data-test="product-sort-container"]')
-    this.productDescription = page.locator('[data-test="inventory-item-desc"]')
+    this.addToCartButton = page.getByRole('button', { name: 'Add to cart' });
+    this.cartBadge = page.locator('[data-test="shopping-cart-badge"]');
+    this.itemName = page.locator('[data-test="inventory-item-name"]');
+    this.itemPrice = page.locator('[data-test="inventory-item-price"]');
+    this.sortButton = page.locator('[data-test="product-sort-container"]');
+    this.productDescription = page.locator('[data-test="inventory-item-desc"]');
   }
 
-async goto(): Promise<void> {
+  async goto(): Promise<void> {
     await this.page.goto('/inventory.html');
   }
 
-async addToCart(){
-   await this.addToCartButton.first().click()
+  async addToCart() {
+    await this.addToCartButton.first().click();
+  }
 
-}
-
-async sortBy(value: 'az' | 'za' | 'lohi' | 'hilo'): Promise<void> {
-   await this.sortButton.selectOption(value)
-}
-
+  async sortBy(value: 'az' | 'za' | 'lohi' | 'hilo'): Promise<void> {
+    await this.sortButton.selectOption(value);
+  }
 }

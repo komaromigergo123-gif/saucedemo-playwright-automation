@@ -1,11 +1,15 @@
 import { test, expect } from '../fixtures/pages';
 
+test.describe('@smoke', () => {
+  test('product appears in cart', async ({ cartPage }) => {
+    await cartPage.goto();
+    await expect(cartPage.itemName).toBeVisible();
+  });
+});
 
 test('remove product from cart', async ({ cartPage }) => {
   await cartPage.goto();
 
-  
-  await expect(cartPage.itemName).toBeVisible();
   await cartPage.removeButton.click();
   await expect(cartPage.itemName).not.toBeVisible();
 });
@@ -15,7 +19,10 @@ test('check quantity in cart', async ({ cartPage }) => {
   await expect(cartPage.itemQuantity).toBeVisible();
   await expect(cartPage.itemQuantity).toHaveText('1');
 });
-test('updates the total price after adding another item', async ({ cartPage, productsPage }) => {
+test('updates the total price after adding another item', async ({
+  cartPage,
+  productsPage,
+}) => {
   await cartPage.goto();
   const totalBeforeAddingItem = await cartPage.getTotalPrice();
 
@@ -26,4 +33,12 @@ test('updates the total price after adding another item', async ({ cartPage, pro
   const totalAfterAddingItem = await cartPage.getTotalPrice();
 
   expect(totalAfterAddingItem).toBeGreaterThan(totalBeforeAddingItem);
+});
+
+test.describe('@smoke', () => {
+test('proceed to checkout', async ({ cartPage, page }) => {
+  await cartPage.goto();
+  await cartPage.checkoutButton.click();
+  await expect(page).toHaveURL('/checkout-step-one.html');
+  })
 });

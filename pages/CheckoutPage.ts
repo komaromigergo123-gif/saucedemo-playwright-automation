@@ -12,29 +12,35 @@ export class CheckoutPage {
   readonly itemQuantity: Locator;
   readonly finishButton: Locator;
   readonly completeHeader: Locator;
+  readonly generatePdfButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.checkoutButton = page.getByRole('button', { name: 'Checkout' });
-    this.lastNameInput = page.getByRole('textbox', {name: 'Last Name'});
-    this.firstNameInput = page.getByRole('textbox', {name: 'First Name'});
-    this.zipPostalCodeInput = page.getByRole('textbox', {name: 'Zip/Postal Code'});
-    this.continueButton = page.getByRole('button', { name: 'Continue' })
+    this.lastNameInput = page.getByRole('textbox', { name: 'Last Name' });
+    this.firstNameInput = page.getByRole('textbox', { name: 'First Name' });
+    this.zipPostalCodeInput = page.getByRole('textbox', {
+      name: 'Zip/Postal Code',
+    });
+    this.continueButton = page.getByRole('button', { name: 'Continue' });
     this.errorMessage = page.locator('[data-test="error"]');
-    this.itemName = page.locator('[data-test="inventory-item-name"]')
-   this.itemQuantity = page.locator('[data-test="item-quantity"]')
-   this.finishButton = page.getByRole('button', { name: 'Finish' })
-   this.completeHeader = page.locator('[data-test="complete-header"]')
+    this.itemName = page.locator('[data-test="inventory-item-name"]');
+    this.itemQuantity = page.locator('[data-test="item-quantity"]');
+    this.finishButton = page.getByRole('button', { name: 'Finish' });
+    this.completeHeader = page.locator('[data-test="complete-header"]');
+    this.generatePdfButton = page.getByRole('button', {
+      name: 'Generate pdf order',
+    });
   }
 
-async goto(): Promise<void> {
-    await this.page.goto('/cart.html');
+  async goto(): Promise<void> {
+    await this.page.goto('/checkout-step-one.html');
   }
 
-  async fillDetails(firstName = '', lastName = '', zipPostalCode = ''){
-    await this.firstNameInput.fill(firstName)
-    await this.lastNameInput.fill(lastName)
-    await this.zipPostalCodeInput.fill(zipPostalCode)
-    await this.continueButton.click()
+  async fillDetails(firstName = '', lastName = '', zipPostalCode = '') {
+    await this.firstNameInput.fill(firstName);
+    await this.lastNameInput.fill(lastName);
+    await this.zipPostalCodeInput.fill(zipPostalCode);
+    await this.continueButton.click();
   }
 }

@@ -25,6 +25,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Type check
+        run: npm run check-types
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
@@ -54,6 +57,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Type check
+        run: npm run check-types
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
@@ -67,4 +73,3 @@ jobs:
           name: playwright-report-regression
           path: playwright-report/
           retention-days: 14
-

@@ -4,21 +4,33 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "test": "playwright test --project=products-chromium --project=login-chromium --project=cart-chromium --project=checkout-chromium",
-  "test:headed": "playwright test --headed --project=products-chromium --project=login-chromium --project=cart-chromium --project=checkout-chromium",
-  "test:smoke": "playwright test --grep @smoke --project=products-chromium --project=products-firefox --project=products-webkit --project=login-chromium --project=login-firefox --project=login-webkit --project=checkout-chromium --project=checkout-firefox --project=checkout-webkit",
-  "test:regression-cross-browser": "playwright test --project=products-chromium --project=products-firefox --project=products-webkit --project=login-chromium --project=login-firefox --project=login-webkit --project=cart-chromium --project=cart-firefox --project=cart-webkit --project=checkout-chromium --project=checkout-firefox --project=checkout-webkit",
-  "test:ui": "playwright test --ui",
-  "report": "playwright show-report"
+    "test": "playwright test --project=products-chromium --project=login-chromium --project=cart-chromium --project=checkout-chromium",
+    "test:headed": "playwright test --headed --project=products-chromium --project=login-chromium --project=cart-chromium --project=checkout-chromium",
+    "test:smoke": "playwright test --grep @smoke --project=products-chromium --project=products-firefox --project=products-webkit --project=login-chromium --project=login-firefox --project=login-webkit --project=cart-chromium --project=cart-firefox --project=cart-webkit --project=checkout-chromium --project=checkout-firefox --project=checkout-webkit",
+    "test:regression-cross-browser": "playwright test --project=products-chromium --project=products-firefox --project=products-webkit --project=login-chromium --project=login-firefox --project=login-webkit --project=cart-chromium --project=cart-firefox --project=cart-webkit --project=checkout-chromium --project=checkout-firefox --project=checkout-webkit",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "check-types": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.56.1",
     "@types/node": "^26.4.0",
-    "typescript": "^7.0.2"
+    "dotenv": "^17.4.2",
+    "eslint": "^10.10.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.12.0",
+    "prettier": "^3.9.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.69.0"
   },
   "directories": {
     "test": "tests"

@@ -1,4 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default defineConfig({
   testDir: './tests',
@@ -7,7 +10,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
 
   use: {
-    baseURL: 'https://www.saucedemo.com',
+    baseURL: process.env.BASE_URL,
     headless: true,
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
@@ -80,7 +83,7 @@ export default defineConfig({
       testMatch: /cart\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/checkout.json',
+        storageState: 'playwright/.auth/cart.json',
       },
       dependencies: ['setup-cart'],
     },
@@ -89,7 +92,7 @@ export default defineConfig({
       testMatch: /cart\.spec\.ts/,
       use: {
         ...devices['Desktop Firefox'],
-        storageState: 'playwright/.auth/checkout.json',
+        storageState: 'playwright/.auth/cart.json',
       },
       dependencies: ['setup-cart'],
     },
@@ -98,7 +101,7 @@ export default defineConfig({
       testMatch: /cart\.spec\.ts/,
       use: {
         ...devices['Desktop Safari'],
-        storageState: 'playwright/.auth/checkout.json',
+        storageState: 'playwright/.auth/cart.json',
       },
       dependencies: ['setup-cart'],
     },
@@ -108,7 +111,7 @@ export default defineConfig({
       testMatch: /checkout\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/checkout.json',
+        storageState: 'playwright/.auth/cart.json',
       },
       dependencies: ['setup-cart'],
     },
@@ -117,7 +120,7 @@ export default defineConfig({
       testMatch: /checkout\.spec\.ts/,
       use: {
         ...devices['Desktop Firefox'],
-        storageState: 'playwright/.auth/checkout.json',
+        storageState: 'playwright/.auth/cart.json',
       },
       dependencies: ['setup-cart'],
     },
@@ -126,7 +129,7 @@ export default defineConfig({
       testMatch: /checkout\.spec\.ts/,
       use: {
         ...devices['Desktop Safari'],
-        storageState: 'playwright/.auth/checkout.json',
+        storageState: 'playwright/.auth/cart.json',
       },
       dependencies: ['setup-cart'],
     },

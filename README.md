@@ -44,12 +44,11 @@ npm run report                    # open last HTML report
 
 - [x] Model the cart page as its own POM (currently inlined in `products.spec.ts`)
 - [x] Cross-browser coverage (Firefox, WebKit) — smoke suite and nightly regression run on Chromium, Firefox, and WebKit; default `npm test` stays Chromium-only for speed
-- [ ] ESLint + Prettier for code quality consistency
+- [x] ESLint + Prettier for code quality consistency
 - [ ] Accessibility checks via `@axe-core/playwright`
 - [ ] Visual regression baseline (`toHaveScreenshot`)
-- [ ] Verify `@types/node`/`typescript` package versions are correct (pinned versions look implausible)
-- [ ] Fix `CheckoutPage.goto()` navigating to `/cart.html` instead of a real checkout URL
-- [ ] Add `tsc --noEmit` type-check step to CI
+- [x] Fix `CheckoutPage.goto()` navigating to `/cart.html` instead of a real checkout URL
+- [x] Add `tsc --noEmit` type-check step to CI
 - [ ] Add `.env`/multi-environment config layering instead of hardcoded base URL
 - [ ] Add an API-level test or `page.route` network mocking example
 - [ ] Add `list` reporter alongside `html` for CI console output
