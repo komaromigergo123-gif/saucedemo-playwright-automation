@@ -1,7 +1,13 @@
 import { defineConfig, devices } from '@playwright/test';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 
 dotenv.config();
+
+const baseURL = process.env.BASE_URL;
+
+if (!baseURL) {
+  throw new Error('BASE_URL is not set. Add it to a local .env file.');
+}
 
 export default defineConfig({
   testDir: './tests',
@@ -10,7 +16,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
 
   use: {
-    baseURL: process.env.BASE_URL,
+    baseURL,
     headless: true,
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
@@ -33,7 +39,7 @@ export default defineConfig({
       dependencies: ['setup-auth'],
     },
 
-    // login tests run unauthenticated, so no storageState/dependency
+    
     {
       name: 'login-chromium',
       testMatch: /login\.spec\.ts/,

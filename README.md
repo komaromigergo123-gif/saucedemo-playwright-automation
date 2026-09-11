@@ -25,6 +25,7 @@ playwright.config.ts
 - **Tagged test runs** – `@smoke` tag marks critical-path tests, run independently via `npm run test:smoke`.
 - **CI pipeline** – smoke suite runs on every push/PR; full regression runs nightly and on manual dispatch, with HTML report uploaded as an artifact.
 - **File download verification** – checkout flow test downloads a generated PDF receipt and asserts its file signature.
+- **Network mocking** – `network-mocking.spec.ts` uses `page.route` to return an HTTP 500 response for an API request.
 - **Negative/edge case coverage** – locked-out user, invalid login, required-field validation on checkout.
 
 ## Running locally
@@ -40,16 +41,15 @@ npm run test:ui                   # Playwright UI mode
 npm run report                    # open last HTML report
 ```
 
+Create a local `.env` file with `BASE_URL` set to the test environment URL. The file is ignored by Git so environment-specific or sensitive URLs are not committed. A template is available in [.env.example](.env.example).
+
 ## Roadmap / next steps
 
 - [x] Model the cart page as its own POM (currently inlined in `products.spec.ts`)
 - [x] Cross-browser coverage (Firefox, WebKit) — smoke suite and nightly regression run on Chromium, Firefox, and WebKit; default `npm test` stays Chromium-only for speed
 - [x] ESLint + Prettier for code quality consistency
-- [ ] Accessibility checks via `@axe-core/playwright`
-- [ ] Visual regression baseline (`toHaveScreenshot`)
 - [x] Fix `CheckoutPage.goto()` navigating to `/cart.html` instead of a real checkout URL
 - [x] Add `tsc --noEmit` type-check step to CI
 - [x] Add `.env`/multi-environment config layering instead of hardcoded base URL
-- [ ] Add an API-level test or `page.route` network mocking example
+- [x] Add a `page.route` network mocking example
 - [ ] Add `list` reporter alongside `html` for CI console output
-- [ ] Use `test.step()` to group actions for more readable HTML reports
