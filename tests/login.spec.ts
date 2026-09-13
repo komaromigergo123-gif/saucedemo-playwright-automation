@@ -1,15 +1,10 @@
 import { test, expect } from '../fixtures/pages';
 import { users } from '../data/users';
 
-test('open products page without login', async ({ page }) => {
+test('open products page without login', async ({ page, loginPage }) => {
   await page.goto('/inventory.html');
-  await expect(
-    page.getByRole('heading', {
-      name: "Epic sadface: You can only access '/inventory.html' when you are logged in.",
-    }),
-  ).toBeVisible();
+  await expect(loginPage.errorHeading).toHaveText("Epic sadface: You can only access '/inventory.html' when you are logged in.");
 });
-
 test('empty field error', async ({ loginPage }) => {
   await loginPage.goto();
   await loginPage.loginButton.click();
