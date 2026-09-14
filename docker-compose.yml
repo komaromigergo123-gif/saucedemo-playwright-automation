@@ -19,6 +19,9 @@ services:
     container_name: jenkins-local
     privileged: true
     user: root
+    environment:
+      # Relax Jenkins' default CSP so the self-hosted Playwright HTML report (JS-driven) can render
+      - JAVA_OPTS=-Dhudson.model.DirectoryBrowserSupport.CSP="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:;"
     ports:
       - '8080:8080'
       - '50000:50000'
