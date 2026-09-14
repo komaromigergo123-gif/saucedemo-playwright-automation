@@ -1,6 +1,12 @@
 # SauceDemo Playwright Automation
 
-End-to-end test suite for [saucedemo.com](https://www.saucedemo.com), built with [Playwright](https://playwright.dev/) and TypeScript. Built as a portfolio project to demonstrate test automation practices: Page Object Model, custom fixtures, data-driven tests, authenticated session reuse, and CI-driven smoke/regression pipelines.
+[![Playwright Tests](https://github.com/komaromigergo123-gif/saucedemo-playwright-automation/actions/workflows/playwright.yml/badge.svg)](https://github.com/komaromigergo123-gif/saucedemo-playwright-automation/actions/workflows/playwright.yml)
+![Playwright](https://img.shields.io/badge/Playwright-1.56-45ba4b?logo=playwright&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6?logo=typescript&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-ready-2496ed?logo=docker&logoColor=white)
+![Jenkins](https://img.shields.io/badge/Jenkins-pipeline-d24939?logo=jenkins&logoColor=white)
+
+End-to-end test suite for [saucedemo.com](https://www.saucedemo.com), built with [Playwright](https://playwright.dev/) and TypeScript. Built as a portfolio project to demonstrate professional test automation practices: Page Object Model, custom fixtures, data-driven tests, authenticated session reuse, and dual CI/CD pipelines (GitHub Actions + Jenkins) running smoke and cross-browser regression suites in Docker.
 
 ## Tech stack
 
@@ -29,6 +35,22 @@ playwright.config.ts
 - **File download verification** – checkout flow test downloads a generated PDF receipt and asserts its file signature.
 - **Network mocking** – `network-mocking.spec.ts` uses `page.route` to return an HTTP 500 response for an API request.
 - **Negative/edge case coverage** – locked-out user, invalid login, required-field validation on checkout.
+
+## Test coverage
+
+28 tests across 7 spec files, organized by feature area:
+
+| Area | Spec file | Scenarios |
+| --- | --- | --- |
+| Login | [login.spec.ts](tests/login.spec.ts) | Unauthenticated access redirect, empty-field validation, invalid credentials, successful login, locked-out user |
+| Inventory | [inventory.spec.ts](tests/inventory.spec.ts) | Item listing, item detail navigation, add-to-cart, sort by name/price (A-Z, Z-A, low-high, high-low) |
+| Cart | [cart.spec.ts](tests/cart.spec.ts) | Product appears in cart, remove product, quantity check, running total updates, proceed to checkout |
+| Checkout | [checkout.spec.ts](tests/checkout.spec.ts) | Cancel flow, required-field validation (first/last name, zip), order overview totals, order confirmation, PDF receipt download & verification |
+| End-to-end | [e2e.spec.ts](tests/e2e.spec.ts) | Full purchase journey in one flow: login → add to cart → cart review → checkout info → order overview → order confirmation |
+| Network mocking | [network-mocking.spec.ts](tests/network-mocking.spec.ts) | Simulated API 500 error via `page.route` |
+| Setup projects | [auth.setup.ts](tests/auth.setup.ts), [cart.setup.ts](tests/cart.setup.ts) | Reusable authenticated/cart `storageState` for downstream tests |
+
+Critical-path scenarios are tagged `@smoke` and run cross-browser (Chromium, Firefox, WebKit) on every push/PR and in Jenkins; the full suite runs nightly.
 
 ## Running locally
 

@@ -67,7 +67,12 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         storageState: 'playwright/.auth/user.json',
       },
-      testIgnore: [/checkout\.spec\.ts/, /login\.spec\.ts/, /cart\.spec\.ts/],
+      testIgnore: [
+        /checkout\.spec\.ts/,
+        /login\.spec\.ts/,
+        /cart\.spec\.ts/,
+        /e2e\.spec\.ts/,
+      ],
       dependencies: ['setup-auth'],
     },
     {
@@ -76,7 +81,12 @@ export default defineConfig({
         ...devices['Desktop Firefox'],
         storageState: 'playwright/.auth/user.json',
       },
-      testIgnore: [/checkout\.spec\.ts/, /login\.spec\.ts/, /cart\.spec\.ts/],
+      testIgnore: [
+        /checkout\.spec\.ts/,
+        /login\.spec\.ts/,
+        /cart\.spec\.ts/,
+        /e2e\.spec\.ts/,
+      ],
       dependencies: ['setup-auth'],
     },
     {
@@ -85,8 +95,29 @@ export default defineConfig({
         ...devices['Desktop Safari'],
         storageState: 'playwright/.auth/user.json',
       },
-      testIgnore: [/checkout\.spec\.ts/, /login\.spec\.ts/, /cart\.spec\.ts/],
+      testIgnore: [
+        /checkout\.spec\.ts/,
+        /login\.spec\.ts/,
+        /cart\.spec\.ts/,
+        /e2e\.spec\.ts/,
+      ],
       dependencies: ['setup-auth'],
+    },
+
+    {
+      name: 'e2e-chromium',
+      testMatch: /e2e\.spec\.ts/,
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'e2e-firefox',
+      testMatch: /e2e\.spec\.ts/,
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'e2e-webkit',
+      testMatch: /e2e\.spec\.ts/,
+      use: { ...devices['Desktop Safari'] },
     },
 
     {
