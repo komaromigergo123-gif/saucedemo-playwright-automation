@@ -1,83 +1,98 @@
-/// <reference types="node" />
 import { test, expect } from '../fixtures/pages';
 import { readFile } from 'fs/promises';
 import { checkoutDetails } from '../data/checkoutDetails';
 
-test('checkout First Name mandatory', async ({ checkoutPage }) => {
-  await checkoutPage.goto();
+test('cancel on checkout step one', async ({ page, checkoutStepOnePage }) => {
+  await checkoutStepOnePage.goto();
 
-  await checkoutPage.fillDetails(
+  await checkoutStepOnePage.cancelButton.click();
+  await expect(page).toHaveURL(/cart\.html/);
+});
+
+test('checkout First Name mandatory', async ({ checkoutStepOnePage }) => {
+  await checkoutStepOnePage.goto();
+
+  await checkoutStepOnePage.fillDetails(
     '',
-    checkoutDetails.standard.lastName,
-    checkoutDetails.standard.postalCode,
+    checkoutDetails.lastName,
+    checkoutDetails.postalCode,
   );
-  await expect(checkoutPage.errorMessage).toHaveText(
+  await expect(checkoutStepOnePage.errorMessage).toHaveText(
     'Error: First Name is required',
   );
 });
 
-test('checkout Last Name mandatory', async ({ checkoutPage }) => {
-  await checkoutPage.goto();
+test('checkout Last Name mandatory', async ({ checkoutStepOnePage }) => {
+  await checkoutStepOnePage.goto();
 
-  await checkoutPage.fillDetails(
-    checkoutDetails.standard.firstName,
+  await checkoutStepOnePage.fillDetails(
+    checkoutDetails.firstName,
     '',
-    checkoutDetails.standard.postalCode,
+    checkoutDetails.postalCode,
   );
-  await expect(checkoutPage.errorMessage).toHaveText(
+  await expect(checkoutStepOnePage.errorMessage).toHaveText(
     'Error: Last Name is required',
   );
 });
-test('checkout Zip/Postal Code mandatory', async ({ checkoutPage }) => {
-  await checkoutPage.goto();
+test('checkout Zip/Postal Code mandatory', async ({ checkoutStepOnePage }) => {
+  await checkoutStepOnePage.goto();
 
-  await checkoutPage.fillDetails(
-    checkoutDetails.standard.firstName,
-    checkoutDetails.standard.lastName,
+  await checkoutStepOnePage.fillDetails(
+    checkoutDetails.firstName,
+    checkoutDetails.lastName,
     '',
   );
-  await expect(checkoutPage.errorMessage).toHaveText(
+  await expect(checkoutStepOnePage.errorMessage).toHaveText(
     'Error: Postal Code is required',
   );
 });
-test('checkout overview', async ({ checkoutPage }) => {
-  await checkoutPage.goto();
+test('checkout overview', async ({ checkoutStepOnePage, checkoutStepTwoPage }) => {
+  await checkoutStepOnePage.goto();
 
-  await checkoutPage.fillDetails(
-    checkoutDetails.standard.firstName,
-    checkoutDetails.standard.lastName,
-    checkoutDetails.standard.postalCode,
+  await checkoutStepOnePage.fillDetails(
+    checkoutDetails.firstName,
+    checkoutDetails.lastName,
+    checkoutDetails.postalCode,
   );
-  await expect(checkoutPage.itemName).toBeVisible();
-  await expect(checkoutPage.itemQuantity).toHaveText('1');
+  await expect(checkoutStepTwoPage.itemName).toBeVisible();
+  await expect(checkoutStepTwoPage.itemQuantity).toHaveText('1');
 });
 test.describe('@smoke', () => {
-  test('checkout finish', async ({ checkoutPage }) => {
-    await checkoutPage.goto();
+  test('checkout finish', async ({
+    checkoutStepOnePage,
+    checkoutStepTwoPage,
+    checkoutCompletePage,
+  }) => {
+    await checkoutStepOnePage.goto();
 
-    await checkoutPage.fillDetails(
-      checkoutDetails.standard.firstName,
-      checkoutDetails.standard.lastName,
-      checkoutDetails.standard.postalCode,
+    await checkoutStepOnePage.fillDetails(
+      checkoutDetails.firstName,
+      checkoutDetails.lastName,
+      checkoutDetails.postalCode,
     );
-    await checkoutPage.finishButton.click();
-    await expect(checkoutPage.completeHeader).toHaveText(
+    await checkoutStepTwoPage.finishButton.click();
+    await expect(checkoutCompletePage.completeHeader).toHaveText(
       'Thank you for your order!',
     );
   });
 });
-test('checkout generate pdf', async ({ page, checkoutPage }, testInfo) => {
-  await checkoutPage.goto();
+test('checkout generate pdf', async ({
+  page,
+  checkoutStepOnePage,
+  checkoutStepTwoPage,
+  checkoutCompletePage,
+}, testInfo) => {
+  await checkoutStepOnePage.goto();
 
-  await checkoutPage.fillDetails(
-    checkoutDetails.standard.firstName,
-    checkoutDetails.standard.lastName,
-    checkoutDetails.standard.postalCode,
+  await checkoutStepOnePage.fillDetails(
+    checkoutDetails.firstName,
+    checkoutDetails.lastName,
+    checkoutDetails.postalCode,
   );
-  await checkoutPage.finishButton.click();
+  await checkoutStepTwoPage.finishButton.click();
 
   const downloadPromise = page.waitForEvent('download');
-  await checkoutPage.generatePdfButton.click();
+  await checkoutCompletePage.generatePdfButton.click();
   const download = await downloadPromise;
 
   expect(download.suggestedFilename()).toMatch(/\.pdf$/i);

@@ -21,13 +21,13 @@ test('check quantity in cart', async ({ cartPage }) => {
 });
 test('updates the total price after adding another item', async ({
   cartPage,
-  productsPage,
+  inventoryPage,
 }) => {
   await cartPage.goto();
   const totalBeforeAddingItem = await cartPage.getTotalPrice();
 
-  await productsPage.goto();
-  await productsPage.addToCart();
+  await inventoryPage.goto();
+  await inventoryPage.addToCart();
 
   await cartPage.goto();
   const totalAfterAddingItem = await cartPage.getTotalPrice();

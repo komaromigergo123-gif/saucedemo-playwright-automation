@@ -11,7 +11,7 @@ End-to-end test suite for [saucedemo.com](https://www.saucedemo.com), built with
 
 ```
 data/         Test data (user credentials, checkout info)
-pages/        Page Object Model classes (LoginPage, ProductsPage, CheckoutPage)
+pages/        Page Object Model classes for login, inventory, item details, cart, and checkout
 fixtures/     Custom test/expect fixtures wiring page objects into tests
 tests/        Spec files + setup projects for authenticated state
 playwright.config.ts
@@ -32,23 +32,23 @@ playwright.config.ts
 
 ```bash
 npm ci
-npx playwright install --with-deps   # installs Chromium, Firefox, WebKit
-npm test                          # full suite, Chromium only, headless
-npm run test:headed               # headed mode, Chromium only
-npm run test:smoke                # @smoke tagged tests, Chromium + Firefox + WebKit
-npm run test:regression-cross-browser  # full suite, Chromium + Firefox + WebKit
-npm run test:ui                   # Playwright UI mode
-npm run report                    # open last HTML report
+npx playwright install --with-deps
+npm test
+npm run test:headed
+npm run test:smoke
+npm run test:regression-cross-browser
+npm run test:ui
+npm run report
 ```
 
 Create a local `.env` file with `BASE_URL` set to the test environment URL. The file is ignored by Git so environment-specific or sensitive URLs are not committed. A template is available in [.env.example](.env.example).
 
 ## Roadmap / next steps
 
-- [x] Model the cart page as its own POM (currently inlined in `products.spec.ts`)
+- [x] Model the cart page as its own POM
+- [x] Model the item details page as its own POM
 - [x] Cross-browser coverage (Firefox, WebKit) — smoke suite and nightly regression run on Chromium, Firefox, and WebKit; default `npm test` stays Chromium-only for speed
 - [x] ESLint + Prettier for code quality consistency
-- [x] Fix `CheckoutPage.goto()` navigating to `/cart.html` instead of a real checkout URL
 - [x] Add `tsc --noEmit` type-check step to CI
 - [x] Add `.env`/multi-environment config layering instead of hardcoded base URL
 - [x] Add a `page.route` network mocking example
