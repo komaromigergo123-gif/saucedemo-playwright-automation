@@ -3,7 +3,9 @@ import { users } from '../data/users';
 
 test('open products page without login', async ({ page, loginPage }) => {
   await page.goto('/inventory.html');
-  await expect(loginPage.errorHeading).toHaveText("Epic sadface: You can only access '/inventory.html' when you are logged in.");
+  await expect(loginPage.errorHeading).toHaveText(
+    "Epic sadface: You can only access '/inventory.html' when you are logged in.",
+  );
 });
 test('empty field error', async ({ loginPage }) => {
   await loginPage.goto();

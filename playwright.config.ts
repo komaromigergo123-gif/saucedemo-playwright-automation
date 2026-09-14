@@ -22,7 +22,13 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
 
-  reporter: [['html', { open: 'on-failure' }]],
+  reporter: process.env.CI
+    ? [
+        ['list'],
+        ['html', { open: 'never' }],
+        ['junit', { outputFile: 'test-results/junit.xml' }],
+      ]
+    : [['html', { open: 'on-failure' }]],
 
   projects: [
     {
@@ -39,7 +45,6 @@ export default defineConfig({
       dependencies: ['setup-auth'],
     },
 
-    
     {
       name: 'login-chromium',
       testMatch: /login\.spec\.ts/,

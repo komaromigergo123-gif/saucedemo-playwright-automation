@@ -46,7 +46,10 @@ test('checkout Zip/Postal Code mandatory', async ({ checkoutStepOnePage }) => {
     'Error: Postal Code is required',
   );
 });
-test('checkout overview', async ({ checkoutStepOnePage, checkoutStepTwoPage }) => {
+test('checkout overview', async ({
+  checkoutStepOnePage,
+  checkoutStepTwoPage,
+}) => {
   await checkoutStepOnePage.goto();
 
   await checkoutStepOnePage.fillDetails(

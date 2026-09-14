@@ -1,0 +1,12 @@
+node_modules/
+playwright-report/
+test-results/
+playwright/.auth/
+.env
+.git/
+.github/
+.vscode/
+npm-debug.log*
+Dockerfile
+docker-compose.yml
+Jenkinsfile

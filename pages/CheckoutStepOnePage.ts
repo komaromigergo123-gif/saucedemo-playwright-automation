@@ -9,7 +9,6 @@ export class CheckoutStepOnePage {
   readonly cancelButton: Locator;
   readonly errorMessage: Locator;
 
-
   constructor(page: Page) {
     this.page = page;
     this.lastNameInput = page.getByRole('textbox', { name: 'Last Name' });
@@ -20,7 +19,6 @@ export class CheckoutStepOnePage {
     this.continueButton = page.getByRole('button', { name: 'Continue' });
     this.errorMessage = page.locator('[data-test="error"]');
     this.cancelButton = page.getByRole('button', { name: 'Cancel' });
-
   }
 
   async goto(): Promise<void> {

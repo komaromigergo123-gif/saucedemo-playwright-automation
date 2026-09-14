@@ -36,9 +36,9 @@ test('updates the total price after adding another item', async ({
 });
 
 test.describe('@smoke', () => {
-test('proceed to checkout', async ({ cartPage, page }) => {
-  await cartPage.goto();
-  await cartPage.checkoutButton.click();
-  await expect(page).toHaveURL('/checkout-step-one.html');
-  })
+  test('proceed to checkout', async ({ cartPage, page }) => {
+    await cartPage.goto();
+    await cartPage.checkoutButton.click();
+    await expect(page).toHaveURL('/checkout-step-one.html');
+  });
 });

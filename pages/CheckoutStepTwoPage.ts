@@ -16,5 +16,4 @@ export class CheckoutStepTwoPage {
   async goto(): Promise<void> {
     await this.page.goto('/checkout-step-two.html');
   }
-
 }
